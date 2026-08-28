@@ -36,6 +36,24 @@ DIM = "#5f7d74"
 TEXT = "#c8e6da"
 MONO = "ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace"
 
+# Repos to show in the projects grid, in order. Edit this list to change the
+# grid. Any slot left over is filled automatically from your top repos.
+FEATURED = [
+    "commerce-os",
+    "resume-radar",
+    "ai-editing-claud",
+    "payment-recovery-engine",
+]
+
+# Fallback blurbs for repos with no description set on GitHub. Setting the
+# description on the repo itself is better — it shows everywhere on GitHub.
+DESCRIPTIONS = {
+    "resume-radar": "Free 30-second ATS resume checker — instant score, concrete "
+                    "fixes, and job-description keyword matching.",
+    "payment-recovery-engine": "Recovers failed payments through automated retry "
+                               "orchestration.",
+}
+
 LANG_COLORS = {
     "Python": "#3572A5", "JavaScript": "#f1e05a", "TypeScript": "#3178c6",
     "HTML": "#e34c26", "CSS": "#563d7c", "Java": "#b07219", "C": "#555555",
@@ -151,9 +169,17 @@ def collect():
     total_count = sum(count for _, count in ranked) or 1
     languages = [(lang, round(count * 100.0 / total_count, 1)) for lang, count in ranked]
 
-    # A described repo presents far better than a bare name, so rank those
-    # first, then by stars, then by how recently they were pushed.
-    featured = sorted(
+    # Curated picks first, then auto-fill any remaining slots: a described repo
+    # presents better than a bare name, then stars, then recency.
+    by_name = {r["name"].lower(): r for r in repos}
+    featured, seen = [], set()
+    for name in FEATURED:
+        repo = by_name.get(name.lower())
+        if repo and repo["name"] not in seen:
+            featured.append(repo)
+            seen.add(repo["name"])
+
+    auto = sorted(
         repos,
         key=lambda r: (
             bool(r.get("description")),
@@ -161,7 +187,14 @@ def collect():
             r.get("pushed_at", ""),
         ),
         reverse=True,
-    )[:4]
+    )
+    for repo in auto:
+        if len(featured) >= 4:
+            break
+        if repo["name"] not in seen:
+            featured.append(repo)
+            seen.add(repo["name"])
+    featured = featured[:4]
 
     picks = []
     for repo in featured:
@@ -174,7 +207,8 @@ def collect():
             pct = 0
         picks.append({
             "name": repo["name"],
-            "desc": repo.get("description") or "No description provided.",
+            "desc": (repo.get("description")
+                     or DESCRIPTIONS.get(repo["name"], "No description provided.")),
             "lang": repo.get("language") or "—",
             "stars": repo.get("stargazers_count", 0),
             "pct": pct,
