@@ -14,6 +14,11 @@ on:
 permissions:
   contents: write
 
+# Two overlapping runs race on the push; queue them instead.
+concurrency:
+  group: profile-panels
+  cancel-in-progress: false
+
 jobs:
   render:
     runs-on: ubuntu-latest
@@ -40,7 +45,17 @@ jobs:
           git add assets/*.svg
           if git diff --staged --quiet; then
             echo "No panel changes."
-          else
-            git commit -m "Refresh profile panels"
-            git push
+            exit 0
           fi
+          git commit -m "Refresh profile panels"
+          # The remote can move while this run works; rebase and retry.
+          for attempt in 1 2 3; do
+            if git pull --rebase --autostash origin main && git push; then
+              echo "Pushed on attempt $attempt."
+              exit 0
+            fi
+            echo "Push attempt $attempt failed; retrying."
+            sleep 5
+          done
+          echo "Could not push refreshed panels."
+          exit 1
