@@ -50,6 +50,13 @@ def esc(value):
 
 
 # ------------------------------------------------------------------- data --
+def tidy_location(value):
+    """Capitalise an all-lowercase location, but leave "USA"/"São Paulo" alone."""
+    if not value:
+        return "—"
+    return value.title() if value.islower() else value
+
+
 def api(path, host="api.github.com"):
     req = urllib.request.Request(f"https://{host}{path}")
     req.add_header("Accept", "application/vnd.github+json")
@@ -132,6 +139,8 @@ def collect():
     repos = api(f"/users/{USER}/repos?per_page=100&type=owner&sort=updated")
     # Never surface private repositories, whatever the token can see.
     repos = [r for r in repos if not r.get("private") and not r.get("fork")]
+    # The profile repo itself is plumbing, not a project worth featuring.
+    repos = [r for r in repos if r["name"].lower() != USER.lower()]
 
     totals = {}
     for repo in repos:
@@ -142,9 +151,15 @@ def collect():
     total_count = sum(count for _, count in ranked) or 1
     languages = [(lang, round(count * 100.0 / total_count, 1)) for lang, count in ranked]
 
+    # A described repo presents far better than a bare name, so rank those
+    # first, then by stars, then by how recently they were pushed.
     featured = sorted(
         repos,
-        key=lambda r: (r.get("stargazers_count", 0), r.get("pushed_at", "")),
+        key=lambda r: (
+            bool(r.get("description")),
+            r.get("stargazers_count", 0),
+            r.get("pushed_at", ""),
+        ),
         reverse=True,
     )[:4]
 
@@ -169,7 +184,7 @@ def collect():
         "name": user.get("name") or USER,
         "login": USER,
         "bio": user.get("bio") or "",
-        "location": user.get("location") or "—",
+        "location": tidy_location(user.get("location")),
         "followers": user.get("followers", 0),
         "public_repos": len(repos),
         "created_at": user.get("created_at"),
@@ -408,7 +423,7 @@ def hero(data):
     write("hero.svg", "".join(body))
 
 
-def wrap(text, limit):
+def wrap(text, limit, max_lines=2):
     words, lines, line = text.split(), [], ""
     for word in words:
         if len(line) + len(word) + 1 > limit:
@@ -418,7 +433,11 @@ def wrap(text, limit):
             line = f"{line} {word}".strip()
     if line:
         lines.append(line)
-    return lines[:2]
+    if len(lines) > max_lines:
+        # mark the cut so a clipped description doesn't read as a full sentence
+        lines = lines[:max_lines]
+        lines[-1] = lines[-1][: limit - 1].rstrip(" ,.;:") + "…"
+    return lines
 
 
 def projects(data):
