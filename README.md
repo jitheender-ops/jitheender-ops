@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:0f172a,100:6d28d9&height=200&section=header&text=Hey,%20I'm%20Jitheender%20%F0%9F%91%8B&fontSize=42&fontColor=ffffff&fontAlignY=35&desc=B.Tech%20CS%20Student%20%E2%80%A2%20Building%20AI%20Agents%20%26%20Full-Stack%20Apps&descAlignY=55&descSize=18&animation=fadeIn" width="100%"/>
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:0f172a,100:6d28d9&height=200&section=header&text=Hey,%20I'm%20Jitheender%20%F0%9F%91%8B&fontSize=42&fontColor=ffffff&fontAlignY=35&desc=B.Tech%20CS%20Student%20%E2%80%A2%20Building%20AI%20Agents%20and%20Full-Stack%20Apps&descAlignY=55&descSize=18&animation=fadeIn" width="100%"/>
 
 <a href="https://github.com/jitheender-ops">
   <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=22&pause=1000&color=A78BFA&center=true&vCenter=true&width=600&lines=Hi+there%2C+I+am+Jitheender+%F0%9F%91%8B;B.Tech+CS+Student+from+India;Building+AI+Agents+and+Full-Stack+Apps;Aiming+for+top+companies+abroad" alt="Typing SVG" />
