@@ -48,10 +48,10 @@ FEATURED = [
 # Fallback blurbs for repos with no description set on GitHub. Setting the
 # description on the repo itself is better — it shows everywhere on GitHub.
 DESCRIPTIONS = {
-    "resume-radar": "Free 30-second ATS resume checker — instant score, concrete "
-                    "fixes, and job-description keyword matching.",
-    "payment-recovery-engine": "Recovers failed payments through automated retry "
-                               "orchestration.",
+    "resume-radar": "Free 30-second ATS resume scan — instant score, fixes, "
+                    "and keyword matching.",
+    "payment-recovery-engine": "AI retry engine for failed payments — LLM and "
+                               "XGBoost policies behind hard guardrails.",
 }
 
 LANG_COLORS = {
