@@ -49,17 +49,25 @@
    "",
    "",
    "",
-   "",
+   "R",
    "",
    "",
    ""
   ]
  ],
- "turn": "R",
- "moves": [],
+ "turn": "Y",
+ "moves": [
+  {
+   "user": "jitheender-ops",
+   "col": 4,
+   "disc": "R"
+  }
+ ],
  "winner": null,
  "stats": {
   "games": 0,
-  "players": {}
+  "players": {
+   "jitheender-ops": 1
+  }
  }
 }

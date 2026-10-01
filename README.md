@@ -33,7 +33,7 @@ B.Tech CS student building AI agents and full-stack apps, aiming for a top engin
 Everyone plays the same board. Click a column and submit the issue that opens; a bot drops your disc and updates this README in under a minute.
 
 <!-- C4:START -->
-It's **🔴 Red**'s turn. Click a column to drop a disc:
+It's **🟡 Yellow**'s turn. Click a column to drop a disc:
 
 <div align="center">
 
@@ -44,10 +44,13 @@ It's **🔴 Red**'s turn. Click a column to drop a disc:
 | ⚪ | ⚪ | ⚪ | ⚪ | ⚪ | ⚪ | ⚪ |
 | ⚪ | ⚪ | ⚪ | ⚪ | ⚪ | ⚪ | ⚪ |
 | ⚪ | ⚪ | ⚪ | ⚪ | ⚪ | ⚪ | ⚪ |
-| ⚪ | ⚪ | ⚪ | ⚪ | ⚪ | ⚪ | ⚪ |
+| ⚪ | ⚪ | ⚪ | 🔴 | ⚪ | ⚪ | ⚪ |
 
 </div>
 
+**Last moves:** 🔴 @jitheender-ops → col 4
+
+**Top players:** @jitheender-ops (1) · games finished: 0
 <!-- C4:END -->
 
 ## 🐍 Contribution Snake
