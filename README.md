@@ -53,12 +53,12 @@ It's **🟡 Yellow**'s turn. Click a column to drop a disc:
 **Top players:** @jitheender-ops (1) · games finished: 0
 <!-- C4:END -->
 
-## 🐍 Contribution Snake
+## 👻 Contribution Pac-Man
 
 <div align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/jitheender-ops/jitheender-ops/output/snake-dark.svg" />
-    <img src="https://raw.githubusercontent.com/jitheender-ops/jitheender-ops/output/snake.svg" alt="Snake eating my contribution graph" width="100%" />
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/jitheender-ops/jitheender-ops/output/pacman-contribution-graph-dark.svg" />
+    <img src="https://raw.githubusercontent.com/jitheender-ops/jitheender-ops/output/pacman-contribution-graph.svg" alt="Pac-Man eating my contribution graph" width="100%" />
   </picture>
 </div>
 

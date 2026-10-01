@@ -1,4 +1,4 @@
-name: Contribution snake
+name: Contribution Pac-Man
 
 on:
   schedule:
@@ -9,20 +9,19 @@ permissions:
   contents: write
 
 jobs:
-  snake:
+  pacman:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
-      - uses: Platane/snk@v3
+      - uses: abozanona/pacman-contribution-graph@main
         with:
           github_user_name: ${{ github.repository_owner }}
-          outputs: |
-            dist/snake.svg?palette=github-light
-            dist/snake-dark.svg?palette=github-dark&color_snake=#34d399
+          games: pacman
 
       - uses: crazy-max/ghaction-github-pages@v4
         with:
           target_branch: output
           build_dir: dist
-          commit_message: Update snake
+          commit_message: Update Pac-Man
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
