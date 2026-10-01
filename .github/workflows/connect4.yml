@@ -1,0 +1,55 @@
+name: Connect Four
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  contents: write
+  issues: write
+
+# Moves must apply one at a time, in order.
+concurrency:
+  group: connect4
+  cancel-in-progress: false
+
+jobs:
+  move:
+    if: startsWith(github.event.issue.title, 'connect4|')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Play move
+        env:
+          # Untrusted input: only ever passed through env, never interpolated into shell.
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+          ISSUE_USER: ${{ github.event.issue.user.login }}
+        run: python scripts/connect4.py
+
+      - name: Commit board
+        env:
+          ISSUE_USER: ${{ github.event.issue.user.login }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add README.md game/state.json
+          if ! git diff --staged --quiet; then
+            git commit -m "Connect Four: move by @$ISSUE_USER"
+            for attempt in 1 2 3; do
+              git pull --rebase --autostash origin main && git push && break
+              sleep 5
+            done
+          fi
+
+      - name: Reply and close issue
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NUMBER: ${{ github.event.issue.number }}
+        run: |
+          gh issue comment "$NUMBER" --repo "$GITHUB_REPOSITORY" --body-file game/reply.md
+          gh issue close "$NUMBER" --repo "$GITHUB_REPOSITORY"
